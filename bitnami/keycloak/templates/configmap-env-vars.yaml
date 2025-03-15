@@ -23,7 +23,7 @@ data:
   {{- end }}
   {{- if and .Values.adminIngress.enabled .Values.adminIngress.hostname }}
   KEYCLOAK_HOSTNAME_ADMIN: |-
-    {{ ternary "https://" "http://" ( or .Values.adminIngress.tls (eq .Values.proxy "edge") (not (empty .Values.proxyHeaders)) ) -}}    {{- include "common.tplvalues.render" (dict "value" .Values.adminIngress.hostname "context" $) -}}
+    {{ ternary "https://" "http://" ( or .Values.adminIngress.tls (ne .Values.proxy "edge") (not (empty .Values.proxyHeaders)) ) -}}    {{- include "common.tplvalues.render" (dict "value" .Values.adminIngress.hostname "context" $) -}}
     {{- if eq .Values.adminIngress.controller "default" }}
       {{- include "common.tplvalues.render" (dict "value" .Values.adminIngress.path "context" $) }}
     {{- else if eq .Values.adminIngress.controller "gce" }}
@@ -36,7 +36,7 @@ data:
   {{- end }}
   {{- if and .Values.ingress.enabled .Values.ingress.hostname }}
   KEYCLOAK_HOSTNAME: |-
-    {{ ternary "https://" "http://" ( or .Values.ingress.tls (eq .Values.proxy "edge") (not (empty .Values.proxyHeaders)) ) -}}    {{- include "common.tplvalues.render" (dict "value" .Values.ingress.hostname "context" $) -}}
+    {{ ternary "https://" "http://" ( or .Values.ingress.tls (ne .Values.proxy "edge") (not (empty .Values.proxyHeaders)) ) -}}    {{- include "common.tplvalues.render" (dict "value" .Values.ingress.hostname "context" $) -}}
     {{- if eq .Values.ingress.controller "default" }}
       {{- include "common.tplvalues.render" (dict "value" .Values.ingress.path "context" $) }}
     {{- else if eq .Values.ingress.controller "gce" }}
